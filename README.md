@@ -11,4 +11,3 @@ From git: $ git clone https://github.com/juanluisgv1/senacor-middleware-tool.git
 1. go to project root folder
 2. $ npm start 
 3. open localhost:3000 in your browser
-
