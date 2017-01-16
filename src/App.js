@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 
 import Question from './components/Question';
+import Result from './components/Result';
 import logo from '../resources/logo.png';
 import './App.css';
 import '../resources/css/bootstrap.css';
@@ -18,6 +19,37 @@ class App extends Component {
         }
     }
 
+    renderQuestions() {
+        return (
+            <Question
+                key={this.state.current+ '_question' + Math.random()}
+                decision={decisionTree[this.state.current]}
+                onSelect={(next) => {
+                    if(next == "end")
+                        this.setState({
+                            current: this.state.record.pop(),
+                            record:  this.state.record});
+                    else
+                        this.setState({
+                            record:[...this.state.record, this.state.current],
+                            current: next});
+
+
+                }}
+            />
+        )
+    }
+
+    renderResults() {
+        return (
+            <Result
+                key={this.state.current + '_result' + Math.random()}
+                record={this.state.record}
+            />
+        )
+    }
+
+
     render() {
         return (
             <div className="App">
@@ -25,11 +57,10 @@ class App extends Component {
                     <Logo src={logo}/>
                     <h3>Middleware decission tool</h3>
                 </Header>
-                <Question
-                    key={this.state.current}
-                    decision={decisionTree[this.state.current]}
-                    onSelect={(next) => { this.setState({record:[...this.state.record, next], current: next})} }
-                />
+                { this.state.current > -1 ? this.renderQuestions() : this.renderResults() }
+                { this.renderResults() }
+
+
             </div>
         );
     }
@@ -46,14 +77,14 @@ const Logo = styled.img`
 const decisionTree = [
     //#0
     {
-        question: 'First question I must ask', //question
+        question: 'First question', //question
         type: 'boolean', //type
         weight: 0,
         onSelect: (value) => value ? 1 : 3, // logic to next action
     },
     //#1
     {
-        question: 'Second question I must ask', //question
+        question: 'Second question', //question
         type: 'select', //type
         weight: 0,
         options: [
@@ -76,21 +107,21 @@ const decisionTree = [
     },
     //#2
     {
-        question: 'Third question I must ask', //question
+        question: 'Third question', //question
         type: 'numeric', //type
         weight: 0,
         onSelect: (value) => value == 0 ? 2 : 3, // logic to next action
     },
     //#3
     {
-        question: 'Fourth question I must ask', //question
+        question: 'Fourth question', //question
         type: 'boolean', //type
         weight: 0,
-        onSelect: (value) => value == 10 ? -1 : 4, // logic to next action
+        onSelect: (value) => value ? -1 : 4, // logic to next action
     },
     //#4
     {
-        question: 'Fifth question I must ask', //question
+        question: 'Fifth question', //question
         type: 'boolean', //type
         weight: 0,
         onSelect: (value) => value == 10 ? -1 : 3, // logic to next action

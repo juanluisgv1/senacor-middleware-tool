@@ -14,7 +14,9 @@ class NumericQuestion extends Component {
     render() {
         return (
             <div className="form-group">
-                <input className="form-control" type="number"/>
+                <input className="form-control" type="number"
+                       onChange={(e) => this.props.onSelect(e.target.value)}
+                />
             </div>
         );
     }

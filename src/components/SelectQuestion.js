@@ -12,9 +12,7 @@ class SelectQuestion extends Component {
                 <select required="" className="form-control"
                         onChange={(e) => this.props.onSelect(e.target.value)}>
                     <option disabled="" hidden="" value=""> - Auswählen -</option>
-                    <option value="0">Option 1</option>
-                    <option value="1">Option 2</option>
-                    <option value="2">Option 3</option>
+                    {this.props.options.map(x => (<option value={x.value}>{x.text}</option>))}
                 </select>
             </div>
         );
