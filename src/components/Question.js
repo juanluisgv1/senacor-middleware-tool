@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
+import styled, {keyframes} from 'styled-components';
 
 import BooleanQuestion from './BooleanQuestion';
 import NumericQuestion from './NumericQuestion';
@@ -49,7 +49,7 @@ class Question extends Component {
                     >Previous</Button>
                     {
                         this.state.selection ?
-                            <Button primary className="offset-xl-2 col-xl-4"
+                            <Button blinker primary className="offset-xl-2 col-xl-4"
                                  onClick={() => this.state.selection ? this.props.onSelect(this.state.selection) : null }
                             >Next</Button>
                             : null
@@ -60,6 +60,10 @@ class Question extends Component {
     }
 }
 
+const blinker = keyframes`
+    50% { opacity: 0; };
+`;
+
 const Text = styled.p`
     font-size: 2em;
 `;
@@ -67,6 +71,8 @@ const Text = styled.p`
 const Button = styled.button`
     background: ${props => props.primary ? 'rgb(0, 150, 120)' : 'white'};
     color: ${props => props.primary ? 'white' : 'gray'};
+    
+    animation: ${props => props.blinker ? blinker : null} 2.5s linear infinite;
 
     font-size: 1em;
     margin: 1em;
