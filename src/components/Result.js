@@ -6,11 +6,10 @@ class Result extends Component {
     render() {
         const idx = this.props.solutions.findIndex(x => x.id == this.props.solution);
         const solution = idx > -1 ? this.props.solutions[idx].text : "";
-
         return (
             <div>
                 <Text>You have finished the {this.props.title}!</Text>
-                <Text small>your result is: {solution}</Text>
+                <Text small>Your result is: {solution}</Text>
                 {this.props.record.map((x, i) =>
                     <Node key={'node_' + i + Math.random()}>#{i}: node {x + 1}</Node>
                 )}
