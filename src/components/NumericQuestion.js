@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
-import '../../resources/css/bootstrap.css';
-import '../../resources/css/bootstrap-extend.css';
+import '../../public/resources/css/bootstrap.css';
+import '../../public/resources/css/bootstrap-extend.css';
 
 class NumericQuestion extends Component {
 

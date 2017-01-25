@@ -4,6 +4,7 @@ import styled, {keyframes} from 'styled-components';
 import BooleanQuestion from './BooleanQuestion';
 import NumericQuestion from './NumericQuestion';
 import SelectQuestion from './SelectQuestion';
+import CheckBoxQuestion from './CheckBoxQuestion';
 
 //import '../../resources/css/bootstrap.css';
 //import '../../resources/css/bootstrap-extend.css';
@@ -30,25 +31,44 @@ class Question extends Component {
                         this.setState({selection: this.props.decision.options[idx].onSelect(value)})
                     }
                 }/>,
+            checkbox:  (options) => {
+                //this.setState({selection: true});
+                let array = options.map(x => false);
+                return (
+                    <CheckBoxQuestion
+                        options={options}
+                        //onInputChanged={options => {array = options; console.log('current array', array)}}
+                        onInputChanged={(options) => {
+                            let counter = 0;
+                            array = options;
+                            for (var i = 0, j = array.length; i < j; i++)
+                                if(array[i].value) counter++;
+
+                            console.log('array: ', array);
+                            console.log('counter: ', counter);
+                            this.setState({selection: counter})//this.props.decision.onSelect(counter);
+                        }}/>
+                );
+            }
         };
     }
 
     render() {
+        console.log(this.props.decision)
         return (
             <div>
                 <div className="col-xs-12">
                     <Text>{this.props.decision.question}</Text>
-                    <div className="col-xs-offset-3 col-xs-6">
+                    <div className="col-sm-offset-3 col-sm-6">
                      { this.questionComponents[this.props.decision.type](this.props.decision.options)}
                     </div>
                 </div>
 
                 <div className="offset-xl-2 col-xl-8 col-xs-12">
-                    <Button className="offset-xl-2 col-xl-4"
-                         onClick={() => this.props.onSelect('end') }
-                    >Previous</Button>
+                    { !this.props.decision.start && <Button className="offset-xl-2 col-xl-4"
+                         onClick={() => this.props.onSelect('end') }>Previous</Button> }
                     {
-                        this.state.selection ?
+                        this.state.selection || this.props.decision.type == 'checkbox' ?
                             <Button blinker primary className="offset-xl-2 col-xl-4"
                                  onClick={() => this.state.selection ? this.props.onSelect(this.state.selection) : null }
                             >Next</Button>

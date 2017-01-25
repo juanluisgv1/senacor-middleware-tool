@@ -3,10 +3,10 @@ import styled from 'styled-components';
 
 import Question from './components/Question';
 import Result from './components/Result';
-import logo from '../resources/logo.png';
+import logo from '../public/resources/logo.png';
 import './App.css';
-import '../resources/css/bootstrap.css';
-import '../resources/css/bootstrap-extend.css';
+import '../public/resources/css/bootstrap.css';
+import '../public/resources/css/bootstrap-extend.css';
 
 class App extends Component {
 
@@ -16,12 +16,13 @@ class App extends Component {
         this.state = {
             record: [],
             current: 0,
+            started: false,
         }
     }
 
     renderQuestions() {
         return (
-            <Question
+            <Question style={{backgroundColor: '#DDDDDD'}}
                 key={this.state.current+ '_question' + Math.random()}
                 decision={decisionTree.decision[this.state.current]}
                 onSelect={(next) => {
@@ -52,6 +53,13 @@ class App extends Component {
         )
     }
 
+    renderIntro() {
+        return (
+            <Button
+                onClick={() => this.setState({started: true})}> Start the wizzard </Button>
+        )
+    }
+
 
     render() {
         return (
@@ -60,7 +68,11 @@ class App extends Component {
                     <Logo src={logo}/>
                     <h3>Middleware decision tool</h3>
                 </Header>
-                { this.state.current > -1 ? this.renderQuestions() : this.renderResults() }
+                {
+                    this.state.started ?
+                        (this.state.current > -1 ? this.renderQuestions() : this.renderResults())
+                        : this.renderIntro()
+                }
             </div>
         );
     }
@@ -74,31 +86,42 @@ const Logo = styled.img`
     max-width: 250px;
 `;
 
+const Button = styled.button`
+    background: ${props => props.primary ? 'rgb(0, 150, 120)' : 'white'};
+    color: ${props => props.primary ? 'white' : 'gray'};
+    font-size: 1em;
+    margin: 1em;
+    padding: 0.5em 1em;
+    border: 2px solid ${props => props.primary ? 'rgb(0, 150, 120)' : 'gray'};
+    border-radius: 3px;
+`;
+
 const decisionTree = {
     title: 'Middleware-Wizzard',
     solutions: [
-        {id: 1, text: "Yes, an implementation of a middleware is needed at your company"},
-        {id: 2, text: "nah, rather no"},
-        {id: 3, text: 'not necessary but yes if MMA'},
-        {id: 4, text: 'mmmh rather yes'},
-        {id: 5, text: 'You definetly need one'},
+        {id: 1, text: "No Middleware needed"},
+        {id: 2, text: "Rather no Middleware needed"},
+        {id: 3, text: 'Ratther no Middleware needed, but if M&A ...'},
+        {id: 4, text: 'Rather yes'},
+        {id: 5, text: 'Strogly recommending a Middleware'},
     ],
     decision: [
         //#0
         {
+            start: true,
             question: 'How many employees are working in your company?', //question
             type: 'select', //type
             weight: 0,
             options: [
                 {
-                    value: 0,
-                    text: 'bellow 1000',
-                    onSelect: () => 1//next action
+                    value: -1,
+                    text: 'Below 1000',
+                    onSelect: () => -1//next action
                 },
                 {
                     value: 1,
                     text: 'between 1000 & 10000',
-                    onSelect: () => 2//next action
+                    onSelect: () => -5//next action
                 },
                 {
                     value: 2,
@@ -115,7 +138,7 @@ const decisionTree = {
             options: [
                 {
                     value: 0,
-                    text: 'bellow 1illion €',
+                    text: 'Below 1 Billion €',
                     onSelect: () => 4//next action
                 },
                 {
@@ -194,7 +217,7 @@ const decisionTree = {
         },
         //#7
         {
-            question: 'How many employees are working for the company ater ther merger?', //question
+            question: 'How many employees are working for the company after ther merger?', //question
             type: 'select', //type
             weight: 0,
             options: [
@@ -211,7 +234,7 @@ const decisionTree = {
                 {
                     value: 1,
                     text: 'More than 10000',
-                    onSelect: () => 16 //next action
+                    onSelect: () => 17 //next action
                 },
             ]
         },
@@ -235,7 +258,7 @@ const decisionTree = {
         },
         //#9
         {
-            question: 'Is your company highly geographicaly dispersed?', //question
+            question: 'Is your company highly geographically dispersed?', //question
             type: 'boolean', //type
             weight: 0,
             onSelect: (value) => value ? 6 : 10, // logic to next action
@@ -248,7 +271,7 @@ const decisionTree = {
             options: [
                 {
                     value: 0,
-                    text: 'Bellow 50%',
+                    text: 'Below 50%',
                     onSelect: () =>  11//next action
                 },
                 {
@@ -266,7 +289,7 @@ const decisionTree = {
             options: [
                 {
                     value: 0,
-                    text: 'Bellow 35%',
+                    text: 'Below 35%',
                     onSelect: () =>  6//next action
                 },
                 {
@@ -288,7 +311,113 @@ const decisionTree = {
             question: 'is there a high variation of communication types at the company? (e.g. FTP, Web Services, SOAP, Warehouse statistics, Email)', //question
             type: 'boolean', //type
             weight: 0,
-            onSelect: (value) => value ? -2 : -1, // logic to next action
+            onSelect: (value) => value ? 15 : 14, // logic to next action
+        },
+        //#14
+        {
+            question: 'Which of these issues do apply to your company\'s current situation', //question
+            type: 'checkbox', //type
+            weight: 0,
+            options:[
+                {
+                    value: 0,
+                    text: 'Are there currently high expenser in the IT department?'
+                },
+                {
+                    value: 1,
+                    text: 'Is your time-to-market development too long?'
+                },
+                {
+                    value: 2,
+                    text: 'Do you want a better communication etween your system and your customer?'
+                },
+                {
+                    value: 3,
+                    text: 'Do you have any security issues?'
+                },
+                {
+                    value: 4,
+                    text: 'Are you experimenting high data redundancies?'
+                },
+                {
+                    value: 5,
+                    text: 'Do you need to improve your resource planning?'
+                },
+            ],
+            onSelect: (values) => values <= 4 ? -3 : -1, // value: checked options
+        },
+        //#15
+        {
+            question: 'Which of these questions would you answer with yes?', //question
+            type: 'checkbox', //type
+            weight: 0,
+            options:[
+                {
+                    value: 0,
+                    text: 'Is a communication established or planned, which could be simplified or improved by a middleware?'
+                },
+                {
+                    value: 1,
+                    text: 'Are you currently working on bigger software projects or are planning some in the near future?'
+                },
+            ],
+            onSelect: (values) => values == 0 ? 16 : 17, // value: checked options
+        },
+        //#16
+        {
+            question: 'Who is your main software vendor?', //question
+            type: 'select', //type
+            weight: 0,
+            options: [
+                {
+                    value: 0,
+                    text: 'SAP',
+                    onSelect: () => -4//next action
+                },
+                {
+                    value: 1,
+                    text: 'Oracle',
+                    onSelect: () => -4//next action
+                },
+                {
+                    value: 2,
+                    text: 'Microsoft',
+                    onSelect: () => -4//next action
+                },
+                {
+                    value: 2,
+                    text: 'AWS',
+                    onSelect: () => -4//next action
+                },
+            ]
+        },
+        //#17
+        {
+            question: 'Who is your main software vendor?', //question
+            type: 'select', //type
+            weight: 0,
+            options: [
+                {
+                    value: 0,
+                    text: 'SAP',
+                    onSelect: () => -5//next action
+                },
+                {
+                    value: 1,
+                    text: 'Oracle',
+                    onSelect: () => -5//next action
+                },
+                {
+                    value: 2,
+                    text: 'Microsoft',
+                    onSelect: () => -5//next action
+                },
+                {
+                    value: 2,
+                    text: 'AWS',
+                    onSelect: () => -5//next action
+                },
+            ]
         },
     ]
 }
