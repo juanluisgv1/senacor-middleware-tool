@@ -99,11 +99,11 @@ const Button = styled.button`
 const decisionTree = {
     title: 'Middleware-Wizzard',
     solutions: [
-        {id: 1, text: "No Middleware needed"},
-        {id: 2, text: "Rather no Middleware needed"},
-        {id: 3, text: 'Ratther no Middleware needed, but if M&A ...'},
+        {id: 1, text: "No middleware needed"},
+        {id: 2, text: "Rather no middleware needed"},
+        {id: 3, text: 'Ratther no middleware needed, but if M&A are plannend, rather yes'},
         {id: 4, text: 'Rather yes'},
-        {id: 5, text: 'Strogly recommending a Middleware'},
+        {id: 5, text: 'Strongly recommending a middleware'},
     ],
     decision: [
         //#0
@@ -115,17 +115,17 @@ const decisionTree = {
             options: [
                 {
                     value: -1,
-                    text: 'Below 1000',
+                    text: 'Below 1,000',
                     onSelect: () => -1//next action
                 },
                 {
                     value: 1,
-                    text: 'between 1000 & 10000',
+                    text: 'Between 1,000 & 10,000',
                     onSelect: () => -5//next action
                 },
                 {
                     value: 2,
-                    text: 'more than 10000',
+                    text: 'More than 10,000',
                     onSelect: () => 3//next action
                 },
             ]
@@ -217,23 +217,23 @@ const decisionTree = {
         },
         //#7
         {
-            question: 'How many employees are working for the company after ther merger?', //question
+            question: 'How many employees are working for your company after ther merger?', //question
             type: 'select', //type
             weight: 0,
             options: [
                 {
                     value: 0,
-                    text: 'Below 1000',
+                    text: 'Below 1,000',
                     onSelect: () =>  8//next action
                 },
                 {
                     value: 1,
-                    text: 'Between 1000 & 10000',
+                    text: 'Between 1,000 & 10,000',
                     onSelect: () => 9 //next action
                 },
                 {
                     value: 1,
-                    text: 'More than 10000',
+                    text: 'More than 10,000',
                     onSelect: () => 17 //next action
                 },
             ]
@@ -301,14 +301,14 @@ const decisionTree = {
         },
         //#12
         {
-            question: 'is the existing infrastucture sufficient enough for the implementation of a middleware?', //question
+            question: 'Is the existing infrastucture sufficient enough for the implementation of a middleware?', //question
             type: 'boolean', //type
             weight: 0,
             onSelect: (value) => value ? -2 : -1, // logic to next action
         },
         //#13
         {
-            question: 'is there a high variation of communication types at the company? (e.g. FTP, Web Services, SOAP, Warehouse statistics, Email)', //question
+            question: 'Is there a high variation of communication types at the company? (e.g. FTP, Web Services, SOAP, Warehouse statistics, Email)', //question
             type: 'boolean', //type
             weight: 0,
             onSelect: (value) => value ? 15 : 14, // logic to next action
@@ -321,7 +321,7 @@ const decisionTree = {
             options:[
                 {
                     value: 0,
-                    text: 'Are there currently high expenser in the IT department?'
+                    text: 'Are there currently high expenses in the IT department?'
                 },
                 {
                     value: 1,
@@ -329,7 +329,7 @@ const decisionTree = {
                 },
                 {
                     value: 2,
-                    text: 'Do you want a better communication etween your system and your customer?'
+                    text: 'Do you want a better communication between your system and your customers?'
                 },
                 {
                     value: 3,
@@ -337,7 +337,7 @@ const decisionTree = {
                 },
                 {
                     value: 4,
-                    text: 'Are you experimenting high data redundancies?'
+                    text: 'Are you experiencing high data redundancies?'
                 },
                 {
                     value: 5,
@@ -358,7 +358,7 @@ const decisionTree = {
                 },
                 {
                     value: 1,
-                    text: 'Are you currently working on bigger software projects or are planning some in the near future?'
+                    text: 'Are you currently working on bigger software projects or are you planning some in the near future?'
                 },
             ],
             onSelect: (values) => values == 0 ? 16 : 17, // value: checked options
